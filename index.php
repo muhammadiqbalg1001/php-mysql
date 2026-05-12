@@ -22,22 +22,28 @@ $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
                 <th>Nama</th>
                 <th>Jenis Kelamin</th>
                 <th>Alamat</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($result as $index => $pegawai) : ?>
                 <tr>
                     <td>
-                        <?php echo $index + 1?>
+                        <?= $index + 1?>
                     </td>
                     <td>
-                        <?php echo $pegawai["nama"]?>
+                        <?= $pegawai["nama"]?>
                     </td>
                     <td>
-                        <?php echo $pegawai["jenis_kelamin"]?>
+                        <?= $pegawai["jenis_kelamin"]?>
                     </td>
                     <td>
-                        <?php echo $pegawai["alamat"]?>
+                        <?= $pegawai["alamat"]?>
+                    </td>
+                    <td>
+                        <a href="profile.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none; color: black;">
+                            Detail
+                        </a>
                     </td>
                 </tr>
             <?php endforeach ?>
