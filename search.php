@@ -4,8 +4,8 @@
 
     $keyword = $_GET["keyword"];
 
-    $query = mysqli_query($connection, "SELECT * FROM pegawai WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%' OR status_perkawinan LIKE '%$keyword%' ");
-    $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    $query = $db->query("SELECT * FROM pegawai WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%' OR status_perkawinan LIKE '%$keyword%' ");
+    $result = $query->fetchAll();
 
 ?>
 

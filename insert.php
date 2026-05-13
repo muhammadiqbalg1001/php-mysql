@@ -11,8 +11,7 @@
     $status_perkawinan = $_POST["status_perkawinan"];
 
     try {
-        mysqli_query(
-            $connection, 
+        $db->query(
             "INSERT INTO pegawai (
                 nama, 
                 jenis_kelamin,
