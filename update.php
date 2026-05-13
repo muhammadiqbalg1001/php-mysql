@@ -12,8 +12,7 @@
     $status_perkawinan = $_POST["status_perkawinan"];
 
     try {
-        mysqli_query(
-            $connection, 
+        $db->query( 
             "UPDATE pegawai SET 
                 nama='$nama', 
                 jenis_kelamin='$jenis_kelamin',
