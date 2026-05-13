@@ -15,6 +15,14 @@ $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
     <title>Pegawai</title>
 </head>
 <body>
+    <h1>Data Pegawai</h1>
+    <a href="add.php" style="text-decoration: none;">
+        <button type="button" style="cursor: pointer; padding: 4px 6px;">
+            Tambah Data
+        </button>
+    </a>
+    <br>
+    <br>
     <table>
         <thead>
             <tr>
