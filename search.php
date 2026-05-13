@@ -1,9 +1,11 @@
 <?php
 
-include("connection.php");
+    include("connection.php");
 
-$query = mysqli_query($connection, "SELECT * FROM pegawai");
-$result = mysqli_fetch_all($query, MYSQLI_ASSOC);
+    $keyword = $_GET["keyword"];
+
+    $query = mysqli_query($connection, "SELECT * FROM pegawai WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%' OR status_perkawinan LIKE '%$keyword%' ");
+    $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 ?>
 
@@ -12,7 +14,7 @@ $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pegawai</title>
+    <title>Cari Pegawai</title>
     <style>
         tr > td {
             margin: 1rem;
@@ -21,19 +23,15 @@ $result = mysqli_fetch_all($query, MYSQLI_ASSOC);
 </head>
 <body>
     <h1>Data Pegawai</h1>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <form method="GET" action="search.php">
-            <input type="text" name="keyword" placeholder="Ketikan pencarian ..." style="padding: 4px 6px;">
-            <button type="submit" style="padding: 4px 6px;">Cari</button>
-        </form>
-        <a href="add.php" style="text-decoration: none;">
-            <button type="button" style="cursor: pointer; padding: 4px 6px;">
-                Tambah Data
-            </button>
-        </a>
-    </div>
-    <br>
-    <br>
+    <form method="GET" action="search.php" style="margin-bottom: 1rem;">
+        <input type="text" name="keyword" placeholder="Ketikan pencarian ..." style="padding: 4px 6px;">
+        <button type="submit" style="padding: 4px 6px;">Cari</button>
+    </form>
+    <a href="index.php" style="text-decoration: none;">
+        <button type="button" style="cursor: pointer; padding: 4px 6px; margin-bottom: 1rem;">
+            Kembali
+        </button>
+    </a>
     <table>
         <thead>
             <tr>
