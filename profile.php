@@ -33,27 +33,16 @@
             margin: 20px auto;
             font-family: sans-serif;
         }
-        .button-nav {
-            padding: 1rem;
-            display: inline-flexbox;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1><?= $pegawai["nama"] ?> - Profil Pegawai</h1>
-        <div class="button-nav">
-            <a href="index.php" style="text-decoration: none;">
-                <button type="button" style="cursor: pointer; padding: 4px 6px;">
-                    Kembali
-                </button>
-            </a>
-            <a href="index.php" style="text-decoration: none;">
-                <button type="button" style="cursor: pointer; padding: 4px 6px;">
-                    Kembali
-                </button>
-            </a>
-        </div>
+        <a href="index.php" style="text-decoration: none;">
+            <button type="button" style="cursor: pointer; padding: 4px 6px; margin-bottom: 1rem;">
+                Kembali
+            </button>
+        </a>
         <form>
             <label for="">Nama</label>
             <input type="text" value="<?= $pegawai["nama"]; ?>" readonly>

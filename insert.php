@@ -10,23 +10,28 @@
     $nomor_seluler = $_POST["nomor_seluler"];
     $status_perkawinan = $_POST["status_perkawinan"];
 
-    mysqli_query(
-        $connection, 
-        "INSERT INTO pegawai (
-            nama, 
-            jenis_kelamin,
-            alamat,
-            tempat_lahir,
-            tanggal_lahir,
-            nomor_seluler,
-            status_perkawinan)
-        VALUES (
-            '$nama',
-            '$jenis_kelamin',
-            '$alamat',
-            '$tempat_lahir',
-            '$tanggal_lahir',
-            '$nomor_seluler',
-            '$status_perkawinan'
-        )"
-    );
+    try {
+        mysqli_query(
+            $connection, 
+            "INSERT INTO pegawai (
+                nama, 
+                jenis_kelamin,
+                alamat,
+                tempat_lahir,
+                tanggal_lahir,
+                nomor_seluler,
+                status_perkawinan)
+            VALUES (
+                '$nama',
+                '$jenis_kelamin',
+                '$alamat',
+                '$tempat_lahir',
+                '$tanggal_lahir',
+                '$nomor_seluler',
+                '$status_perkawinan'
+            )"
+        );
+        header("Location:index.php");
+    } catch(Exception $e) {
+        echo "Gagal insert ke database: " . $e->getMessage();
+    }
