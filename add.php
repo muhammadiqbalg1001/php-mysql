@@ -34,7 +34,7 @@
         </a>
         <br>
         <br>
-        <form method="POST" action="insert.php">
+        <form method="POST" action="insert.php" enctype="multipart/form-data">
             <label for="nama">Nama</label>
             <input type="text" name="nama">
             
@@ -61,6 +61,9 @@
                 <option value="Belum Menikah">Belum Menikah</option>
                 <option value="Menikah">Menikah</option>
             </select>
+
+            <label for="foto profil">Foto Profil</label>
+            <input type="file" name="foto" accept="images/*">
             
             <button type="submit">Tambah Data</button>
         </form>

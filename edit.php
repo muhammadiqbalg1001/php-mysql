@@ -44,7 +44,7 @@
         </a>
         <br>
         <br>
-        <form method="POST" action="update.php">
+        <form method="POST" action="update.php" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= $pegawai["id"]; ?>">
 
             <label for="nama">Nama</label>
@@ -105,6 +105,17 @@
                     Menikah
                 </option>
             </select>
+
+            <label for="foto">Foto Profil</label>
+            
+            <?php if(!empty($pegawai["foto"])): ?>
+                <div style="margin-bottom: 10px;">
+                    <img src="uploads/<?= $pegawai["foto"]; ?>" alt="Foto <?= $pegawai["nama"]; ?>" style="max-width: 150px; border-radius: 4px;">
+                </div>
+            <?php endif; ?>
+            
+            <input type="file" name="foto" accept="image/*">
+            <small style="color: #6b7280; display: block; margin-bottom: 15px;">* Biarkan kosong jika tidak ingin mengubah foto.</small>
             
             <button type="submit">Update Data</button>
         </form>

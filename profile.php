@@ -22,6 +22,7 @@
             width: 100%;
             margin-bottom: 15px;
             border-radius: 4px;
+            background-color: #f9fafb;
         }
         label {
             font-weight: bold;
@@ -32,17 +33,55 @@
             max-width: 500px;
             margin: 20px auto;
             font-family: sans-serif;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 20px auto;
+            border: 3px solid #d1d5db;
+        }
+        .no-photo {
+            width: 150px;
+            height: 150px;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            color: #6b7280;
+            font-size: 0.8rem;
+            text-align: center;
+            border: 3px solid #d1d5db;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1><?= $pegawai["nama"] ?> - Profil Pegawai</h1>
         <a href="index.php" style="text-decoration: none;">
-            <button type="button" style="cursor: pointer; padding: 4px 6px; margin-bottom: 1rem;">
-                Kembali
+            <button type="button" style="cursor: pointer; padding: 4px 10px; margin-bottom: 1rem;">
+                &larr; Kembali
             </button>
         </a>
+
+        <?php if (!empty($pegawai["foto"]) && file_exists("uploads/foto-profil/" . $pegawai["foto"])): ?>
+            <img src="uploads/foto-profil/<?= $pegawai["foto"]; ?>" alt="Foto <?= $pegawai["nama"]; ?>" class="profile-photo">
+        <?php else: ?>
+            <div class="no-photo">
+                Tidak ada foto
+            </div>
+        <?php endif; ?>
+
+        <h1 style="text-align: center; margin-top: 0;"><?= $pegawai["nama"] ?></h1>
+        <p style="text-align: center; color: #6b7280; margin-bottom: 2rem;">Profil Pegawai</p>
+        
         <form>
             <label for="">Nama</label>
             <input type="text" value="<?= $pegawai["nama"]; ?>" readonly>

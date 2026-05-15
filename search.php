@@ -1,12 +1,16 @@
 <?php
-
     include("connection.php");
 
-    $keyword = $_GET["keyword"];
+    $keyword = isset($_GET["keyword"]) ? trim($_GET["keyword"]) : '';
 
-    $query = $db->query("SELECT * FROM pegawai WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%' OR status_perkawinan LIKE '%$keyword%' ");
-    $result = $query->fetchAll();
+    $sql = "SELECT * FROM pegawai WHERE nama LIKE :keyword OR alamat LIKE :keyword OR status_perkawinan LIKE :keyword ORDER BY nama ASC";
+    $stmt = $db->prepare($sql);
 
+    $searchTerm = '%' . $keyword . '%';
+    $stmt->bindValue(':keyword', $searchTerm, PDO::PARAM_STR);
+    
+    $stmt->execute();
+    $result = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -14,24 +18,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Pegawai</title>
+    <title>Hasil Pencarian: <?= htmlspecialchars($keyword) ?></title>
     <style>
-        tr > td {
-            margin: 1rem;
-        }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        table, th, td { border: 1px solid #d1d5db; padding: 10px; }
+        th { background-color: #f3f4f6; }
+        .search-container { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
     </style>
 </head>
 <body>
-    <h1>Data Pegawai</h1>
-    <form method="GET" action="search.php" style="margin-bottom: 1rem;">
-        <input type="text" name="keyword" placeholder="Ketikan pencarian ..." style="padding: 4px 6px;">
-        <button type="submit" style="padding: 4px 6px;">Cari</button>
-    </form>
-    <a href="index.php" style="text-decoration: none;">
-        <button type="button" style="cursor: pointer; padding: 4px 6px; margin-bottom: 1rem;">
-            Kembali
-        </button>
-    </a>
+    <h1>Hasil Pencarian</h1>
+    
+    <?php if($keyword != ''): ?>
+        <p style="color: #4b5563;">Menampilkan hasil pencarian untuk: <strong>"<?= htmlspecialchars($keyword) ?>"</strong></p>
+    <?php endif; ?>
+
+    <div class="search-container">
+        <form method="GET" action="search.php" style="margin: 0; display: flex; gap: 10px;">
+            <input type="text" name="keyword" value="<?= htmlspecialchars($keyword) ?>" placeholder="Ketikkan pencarian ..." style="padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 4px;">
+            <button type="submit" style="padding: 6px 12px; cursor: pointer;">Cari Lagi</button>
+        </form>
+        
+        <a href="index.php" style="text-decoration: none;">
+            <button type="button" style="cursor: pointer; padding: 6px 12px; background-color: #6b7280; color: white; border: none; border-radius: 4px;">
+                &larr; Kembali ke Semua Data
+            </button>
+        </a>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -43,39 +57,47 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($result as $index => $pegawai) : ?>
+            <?php if(count($result) > 0): ?>
+                <?php foreach($result as $index => $pegawai) : ?>
+                    <tr>
+                        <td style="text-align: center;">
+                            <?= $index + 1?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($pegawai["nama"]) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($pegawai["jenis_kelamin"]) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($pegawai["alamat"]) ?>
+                        </td>
+                        <td style="display: flex; justify-content: center; gap: 0.5rem; border: none;">
+                            <a href="profile.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none;">
+                                <button type="button" style="cursor: pointer; padding: 4px 8px; background-color: blue; color: white; border: none; border-radius: 4px;">
+                                    Detail
+                                </button>
+                            </a>
+                            <a href="edit.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none;">
+                                <button type="button" style="cursor: pointer; padding: 4px 8px; background-color: #f59e0b; color: white; border: none; border-radius: 4px;">
+                                    Edit
+                                </button>
+                            </a>
+                            <a href="delete.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none;" onclick="return confirm('Yakin ingin menghapus?');">
+                                <button type="button" style="cursor: pointer; padding: 4px 8px; background-color: red; color: white; border: none; border-radius: 4px;">
+                                    Hapus
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else: ?>
                 <tr>
-                    <td>
-                        <?= $index + 1?>
-                    </td>
-                    <td>
-                        <?= $pegawai["nama"]?>
-                    </td>
-                    <td>
-                        <?= $pegawai["jenis_kelamin"]?>
-                    </td>
-                    <td>
-                        <?= $pegawai["alamat"]?>
-                    </td>
-                    <td style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
-                        <a href="profile.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none;">
-                            <button type="button" style="cursor: pointer; padding: 4px 8px; background-color: blue; color: white;">
-                                Detail
-                            </button>
-                        </a>
-                        <a href="edit.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none;">
-                            <button type="button" style="cursor: pointer; padding: 4px 8px; background-color: yellow;">
-                                Edit
-                            </button>
-                        </a>
-                        <a href="delete.php?id=<?= $pegawai["id"] ?>" style="text-decoration: none;">
-                            <button type="button" style="cursor: pointer; padding: 4px 8px; background-color: red; color: white;">
-                                Hapus
-                            </button>
-                        </a>
+                    <td colspan="5" style="text-align: center; color: red; padding: 20px;">
+                        Pencarian "<?= htmlspecialchars($keyword) ?>" tidak ditemukan.
                     </td>
                 </tr>
-            <?php endforeach ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </body>
